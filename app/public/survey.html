@@ -27,7 +27,7 @@
         <div class="jumbotron">
             <h2>Survey Questions</h2>
         </div>
-        
+
         <!-- <hr> -->
         <!-- TODO Bootstrap cards -->
         <h3>
@@ -210,7 +210,7 @@
                 </div>
                 <div class="modal-body">
                     <h2 id="matchName"></h2>
-                    <img id="matchImg" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt="">
+                    <img id="matchImg" src="" alt="">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -219,6 +219,36 @@
 
         </div>
     </div>
+
+    <script>
+        $("#submit").on("click", function (e) {
+            e.preventDefault();
+
+            var userScores = [$("#q1").val(),
+                    $("#q2").val(),
+                    $("#q3").val(),
+                    $("#q4").val(),
+                    $("#q5").val(),
+                    $("#q6").val(),
+                    $("#q7").val(),
+                    $("#q8").val(),
+                    $("#q9").val(),
+                    $("#q10").val()
+                ]
+
+            var userResponse = {
+                name: $("#name").val(),
+                photo: $("#photo").val(),
+                scores: JSON.stringify(userScores)
+            };
+
+            var currentURL = window.location.origin;
+
+            $.post(currentURL + "/api/friends", userResponse, function (response) {
+                alert(response);
+            });
+        });
+    </script>
 
 </body>
 
