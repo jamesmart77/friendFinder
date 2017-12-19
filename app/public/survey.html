@@ -224,17 +224,11 @@
         $("#submit").on("click", function (e) {
             e.preventDefault();
 
-            var userScores = [$("#q1").val(),
-                    $("#q2").val(),
-                    $("#q3").val(),
-                    $("#q4").val(),
-                    $("#q5").val(),
-                    $("#q6").val(),
-                    $("#q7").val(),
-                    $("#q8").val(),
-                    $("#q9").val(),
-                    $("#q10").val()
-                ]
+            var userScores = $("#q1").val().toString() + $("#q2").val().toString() + $("#q3").val().toString() +
+                $("#q4").val().toString() + $("#q5").val().toString() + $("#q6").val().toString() + $("#q7").val()
+                .toString() + $("#q8").val().toString() + $("#q9").val().toString() + $("#q10").val().toString()
+
+
 
             var userResponse = {
                 name: $("#name").val(),
