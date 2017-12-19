@@ -36,7 +36,17 @@ router.route('/')
         //overwrite string values with new array
         newFriend.scores = newFriendScores;
 
-        //add newFriend object to friend.js file
+        /* ================================================
+        COMPARE NEW USER TO EXISTING USERS FOR CLOSEST MATCH
+        =================================================*/
+
+        /* LOOP THRU EACH EXISTING USER
+           RECORD COMPARATIVE SCORE
+           FIND LOWEST COMPARATIVE SCORE
+           GET CORRESPONDING USER INFO
+           RETURN OBJECT INFO TO CLIENT */
+
+           //add newFriend object to friend.js file
         friendList.push(newFriend);
 
         res.send("success");
