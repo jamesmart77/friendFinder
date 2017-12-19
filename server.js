@@ -4,7 +4,7 @@ var surveyRoute = require('./app/routes/htmlRoutes/surveyRoute.js');
 var apiRoute = require('./app/routes/apiRoutes/apiRoutes.js');
 
 var app = express();
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 //mounting exported node modules routes
 app.use('/', homeRoute);
