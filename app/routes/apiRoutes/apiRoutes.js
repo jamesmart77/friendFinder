@@ -11,7 +11,6 @@ var parseUrlEncoded = bodyParser.urlencoded({
 });
 
 
-
 //root path is relative to where it's mounted -- server.js
 router.route('/')
     .get(function (req, res) {
@@ -19,8 +18,6 @@ router.route('/')
         res.json(friendList);
     })
     .post(parseUrlEncoded, function (req, res) {
-        // res.send('WELCOME TO THE SURVEY PAGE')
-        //res.sendFile(path.join(__dirname, "../../public/survey.html"));
 
         //declare and assign object posted from client
         var newFriend = req.body;
@@ -44,13 +41,46 @@ router.route('/')
            RECORD COMPARATIVE SCORE
            FIND LOWEST COMPARATIVE SCORE
            GET CORRESPONDING USER INFO
-           RETURN OBJECT INFO TO CLIENT */
+           RETURN INFO TO CLIENT */
 
-           //add newFriend object to friend.js file
+        // set default values
+        var FriendMatch = 0;
+        var closestRecordedVariance = 10000; //default variance...will never be more than this
+        
+        //current user score sum
+        var newFriendScoreSum = newFriend.scores.reduce(getSum);
+
+        for (var i = 0; i < friendList.length; i++) {
+            //sum score of iterated friend object from friend.js
+            let existingFriendScoreSum = friendList[i].scores.reduce(getSum);
+            let scoreVariance = Math.abs(existingFriendScoreSum - newFriendScoreSum);
+
+            //assess if new user score is closer than previous existing users iteration validation
+            if (scoreVariance < closestRecordedVariance) {
+                closestRecordedVariance = scoreVariance;
+                
+                //record closest found friend score
+                FriendMatch = i;
+            }
+
+        };
+        //add newFriend object to friend.js file
         friendList.push(newFriend);
 
-        res.send("success");
+        console.log("=======================\n");
+        console.log("MATCH RESULTS");
+        console.log(friendList[FriendMatch].name + " -- " + friendList[FriendMatch].scores.reduce(getSum));
+        console.log(newFriend.name + " -- " + newFriendScoreSum);
+        console.log("CLOSEST VARIANCE: " + closestRecordedVariance);
+
+        res.send("Success\n\nMatched with: " + friendList[FriendMatch].name);
     })
+
+//pass in array of numbers
+//return sum of array
+function getSum(total, num) {
+    return total + num;
+}
 
 //export router as a node module
 module.exports = router
