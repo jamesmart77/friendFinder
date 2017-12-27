@@ -1,6 +1,6 @@
 var friendList = [{
-    name: "Ahmed",
-    photo: "https://media.licdn.com/media/AAIA_wDGAAAAAQAAAAAAAA2fAAAAJDc4YzcxNWVhLWM5YjMtNDkxMi04NWJjLWRmMWM2MmE1NjM1YQ.jpg",
+    name: "James Martineau",
+    photo: "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/1/005/098/0b6/350c855.jpg",
     scores: [
         5,
         1,
