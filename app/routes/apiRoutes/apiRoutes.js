@@ -73,7 +73,7 @@ router.route('/')
         console.log(newFriend.name + " -- " + newFriendScoreSum);
         console.log("CLOSEST VARIANCE: " + closestRecordedVariance);
 
-        res.send("Success\n\nMatched with: " + friendList[FriendMatch].name);
+        res.send(friendList[FriendMatch]);
     })
 
 //pass in array of numbers
