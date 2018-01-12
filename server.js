@@ -15,7 +15,6 @@ app.use('/', homeRoute);
 app.use('/survey', surveyRoute);
 app.use('/api/friends', apiRoute);
 
-
 app.listen(PORT, function(){
     console.log("app listening on " + PORT);
-});
+}); 
