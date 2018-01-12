@@ -2,6 +2,8 @@ var express = require('express');
 var path = require('path');
 var friendList = require('../../data/friends.js');
 
+var db = require("../../models");
+
 //create Router instance by invoking method
 var router = express.Router();
 

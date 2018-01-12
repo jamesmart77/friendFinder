@@ -7,6 +7,9 @@ var path = require('path');
 var app = express();
 var PORT = process.env.PORT || 3000;
 
+// Requiring our models for syncing
+var db = require("./app/models");
+
 //make all files available in Public folder
 app.use(express.static(path.join(__dirname, 'app/public')))
 
@@ -16,6 +19,12 @@ app.use('/survey', surveyRoute);
 app.use('/api/friends', apiRoute);
 
 
-app.listen(PORT, function(){
-    console.log("app listening on " + PORT);
+// Syncing our sequelize models and then starting our Express app
+// =============================================================
+db.sequelize.sync({
+    force: true
+}).then(function () {
+    app.listen(PORT, function () {
+        console.log("App listening on PORT " + PORT);
+    });
 });
