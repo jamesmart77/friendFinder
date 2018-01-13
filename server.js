@@ -18,7 +18,6 @@ app.use('/', homeRoute);
 app.use('/survey', surveyRoute);
 app.use('/api/friends', apiRoute);
 
-
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
 db.sequelize.sync({
