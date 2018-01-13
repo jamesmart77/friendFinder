@@ -22,7 +22,7 @@ app.use('/api/friends', apiRoute);
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
 db.sequelize.sync({
-    force: true
+    // force: true
 }).then(function () {
     app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT);

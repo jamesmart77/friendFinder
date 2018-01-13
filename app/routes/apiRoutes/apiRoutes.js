@@ -14,75 +14,74 @@ var parseUrlEncoded = bodyParser.urlencoded({
 
 
 //root path is relative to where it's mounted -- server.js
+//current mount is on /api/friends
 router.route('/')
     .get(function (req, res) {
-        // res.send('WELCOME TO THE SURVEY PAGE')
-        res.json(friendList);
+        db.Friend.findAll({}).then(function (dbFriends) {
+
+            res.json(dbFriends);
+        });
     })
     .post(parseUrlEncoded, function (req, res) {
+        
+        //global for multi-function use
+        var friendMatch;
 
-        //declare and assign object posted from client
-        var newFriend = req.body;
 
-        //declare new variable to convert to array
-        var newFriendScores = [];
+        //Function to find all friends and search for closest score match
+        function getBestMatch(callback) {
 
-        //loop through score string, convert to Integer, add to array
-        for (var i = 0; i < newFriend.scores.length; i++) {
-            newFriendScores.push(parseInt(newFriend.scores[i]));
+            //get all friends
+            db.Friend.findAll({}).then(function (dbFriends) {
+
+                // set default values
+                friendMatch = [];
+                var closestRecordedVariance = 50; //default variance...will never be more than this
+                var newFriendScore = req.body.score;
+
+                //user that just submitted score
+                console.log("NEW FRIEND SCORE======================\n")
+                console.log("Score: " + newFriendScore)
+
+                //compare user score to all other friends
+                for (var i = 0; i < dbFriends.length; i++) {
+                    console.log("FRIEND DETAILS======================\n")
+                    console.log("FriendName: " + dbFriends[i].dataValues.name)
+                    console.log("FriendScore: " + dbFriends[i].dataValues.score)
+
+                    var scoreVariance = Math.abs(dbFriends[i].dataValues.score - newFriendScore);
+
+                    console.log("ScoreVariance: " + scoreVariance)
+
+                    //if the scoreVariance is less than previous Closest Variance, overwrite 
+                    //friendMatch with new Closest Match
+                    //assign new closest variance
+                    if (scoreVariance < closestRecordedVariance) {
+                        friendMatch = dbFriends[i];
+                        closestRecordedVariance = scoreVariance;
+                    }
+
+                    //print best match after each loop
+                    console.log("ClosestVariance: " + closestRecordedVariance)
+                    console.log("ClosestMatch: " + JSON.stringify(friendMatch) + "\n\n")
+                };
+
+                console.log("BEST MATCH COMPLETE");
+                callback();
+            });
+        };
+
+        //add current user to db
+        function addNewFriend() {
+            db.Friend.create(req.body).then(function (dbPost) {
+                res.json(friendMatch);
+            });
         }
 
-        //overwrite string values with new array
-        newFriend.scores = newFriendScores;
+        //get all existing friends before adding new user so current isn't matched with himself
+        getBestMatch(addNewFriend);
 
-        /* ================================================
-        COMPARE NEW USER TO EXISTING USERS FOR CLOSEST MATCH
-        =================================================*/
-
-        /* LOOP THRU EACH EXISTING USER
-           RECORD COMPARATIVE SCORE
-           FIND LOWEST COMPARATIVE SCORE
-           GET CORRESPONDING USER INFO
-           RETURN INFO TO CLIENT */
-
-        // set default values
-        var FriendMatch = 0;
-        var closestRecordedVariance = 10000; //default variance...will never be more than this
-        
-        //current user score sum
-        var newFriendScoreSum = newFriend.scores.reduce(getSum);
-
-        for (var i = 0; i < friendList.length; i++) {
-            //sum score of iterated friend object from friend.js
-            let existingFriendScoreSum = friendList[i].scores.reduce(getSum);
-            let scoreVariance = Math.abs(existingFriendScoreSum - newFriendScoreSum);
-
-            //assess if new user score is closer than previous existing users iteration validation
-            if (scoreVariance < closestRecordedVariance) {
-                closestRecordedVariance = scoreVariance;
-                
-                //record closest found friend score
-                FriendMatch = i;
-            }
-
-        };
-        //add newFriend object to friend.js file
-        friendList.push(newFriend);
-
-        console.log("=======================\n");
-        console.log("MATCH RESULTS");
-        console.log(friendList[FriendMatch].name + " -- " + friendList[FriendMatch].scores.reduce(getSum));
-        console.log(newFriend.name + " -- " + newFriendScoreSum);
-        console.log("CLOSEST VARIANCE: " + closestRecordedVariance);
-
-        res.send(friendList[FriendMatch]);
-    })
-
-//pass in array of numbers
-//return sum of array
-function getSum(total, num) {
-    return total + num;
-}
+    });
 
 //export router as a node module
 module.exports = router
