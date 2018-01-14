@@ -11,6 +11,7 @@ body {
     border: solid 4px #80acb3;
 }
 
+/* HOME PAGE */
 .material-icons{
     font-size: 63px;
     color: #80acb3;
@@ -36,9 +37,27 @@ body {
     vertical-align: middle;
     line-height: 40px;
 }
+
 .google-btn{
     background-color: #db3236;
 }
+
+.facebook-btn{
+    background-color: #3b5998;
+}
+
+.btn-row .btn:hover {
+    background-color: #d9d9d9;
+    color: #80acb3;
+}
+.fa {
+    vertical-align: middle;
+}
+
+/* =================================== */
+
+/* SURVEY PAGE */
+
 /* jumbotron */
 .jumbotron h2{
     font-size: 42px;
