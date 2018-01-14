@@ -1,4 +1,10 @@
 $(document).ready(function () {
+
+    var name = sessionStorage.getItem("userName");
+    var photo = sessionStorage.getItem("photoURL");
+
+    $("#name").val(name);
+    $("#photo").val(photo);
     var modal = document.getElementById('resultsModal'); // Get the modal
 
     $("#submit").on("click", function (e) {
@@ -50,6 +56,33 @@ $(document).ready(function () {
         });
     });
 
+    //looping through form fields to check if value is present
+    function validate_form() {
+        //default, assumption
+        valid = true;
+
+        //name and photo fields
+        if ((document.form_entry.user_name.value == "") || (document.form_entry.user_photo.value == "")) {
+            valid = false;
+        }
+
+        //all dropdown menus
+        var $selects = $('#q1, #q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10'),
+            $selected = $selects.filter(function () {
+                //return dropdown count of non-blank
+                return this.value != ''
+            });
+
+        //if count < 10, at least one drop down is blank     
+        if ($selected.length < 10) {
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    //=== MODAL FUNCTIONS ===================================================
+
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
     // When the user clicks on <span> (x), close the modal
@@ -76,28 +109,5 @@ $(document).ready(function () {
         );
     })
 
-    //looping through form fields to check if value is present
-    function validate_form() {
-        //default, assumption
-        valid = true;
-
-        //name and photo fields
-        if ((document.form_entry.user_name.value == "") || (document.form_entry.user_photo.value == "")) {
-            valid = false;
-        }
-
-        //all dropdown menus
-        var $selects = $('#q1, #q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10'),
-            $selected = $selects.filter(function () {
-                //return dropdown count of non-blank
-                return this.value != ''
-            });
-
-        //if count < 10, at least one drop down is blank     
-        if ($selected.length < 10) {
-            valid = false;
-        }
-
-        return valid;
-    }
+    //========================================================================
 });
