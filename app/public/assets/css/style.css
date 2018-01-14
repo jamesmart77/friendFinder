@@ -11,6 +11,34 @@ body {
     border: solid 4px #80acb3;
 }
 
+.material-icons{
+    font-size: 63px;
+    color: #80acb3;
+    vertical-align: bottom;
+}
+
+.btn-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.prefill-buttons{
+    width: 90%;
+    margin: 10px auto;
+    border-radius: 40px;
+    min-width: 289px;
+    max-width: 400px;
+    padding: 0;
+}
+
+.prefill-buttons h4{
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+}
+.google-btn{
+    background-color: #db3236;
+}
 /* jumbotron */
 .jumbotron h2{
     font-size: 42px;
